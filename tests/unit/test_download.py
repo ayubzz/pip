@@ -54,6 +54,11 @@ def test_user_agent():
     PipSession().headers["User-Agent"].startswith("pip/%s" % pip.__version__)
 
 
+def test_user_agent_override(monkeypatch):
+    monkeypatch.setenv("PIP_USER_AGENT_INSTALLER_OVERRIDE", "pipenv/1.0.0")
+    PipSession().headers["User-Agent"].startswith("pipenv/1.0.0")
+
+
 class FakeStream(object):
 
     def __init__(self, contents):

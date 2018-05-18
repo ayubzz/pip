@@ -128,8 +128,14 @@ def user_agent():
     if setuptools_version is not None:
         data["setuptools_version"] = setuptools_version
 
-    return "{data[installer][name]}/{data[installer][version]} {json}".format(
-        data=data,
+    installer = os.environ.get("PIP_USER_AGENT_INSTALLER_OVERRIDE")
+    if not installer:
+        installer = (
+            "{data[installer][name]}/{data[installer][version]}".format(
+                data=data))
+
+    return "{installer} {json}".format(
+        installer=installer,
         json=json.dumps(data, separators=(",", ":"), sort_keys=True),
     )
 
